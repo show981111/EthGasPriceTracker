@@ -27,9 +27,21 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
-      - 9229:9229
+      - ${PORT}:${PORT}
     command: npm run start:dev
+    env_file:
+      - .env
+    networks:
+      - docker-service
+    depends_on:
+      - db
+  prod:
+    container_name: prod
+    build:
+      context: .
+      target: production
+    ports:
+      - ${PORT}:${PORT}
     env_file:
       - .env
     networks:

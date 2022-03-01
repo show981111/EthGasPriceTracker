@@ -41,8 +41,8 @@ export class GasPriceTable1646024089508 implements MigrationInterface {
           },
           {
             name: 'createdAt',
-            type: 'date',
-            default: 'CURRENT_TIMESTAMP',
+            type: 'DATETIME',
+            default: 'NOW()',
           },
         ],
       }),

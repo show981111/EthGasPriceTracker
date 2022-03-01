@@ -1,73 +1,113 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Problem
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Exchanges interact with the Ethereum chain constantly throughout the day to carry out various operations such as withdraws, dApp interactions, etc. The cost of one interaction or transaction (transaction fees) in the Ethereum network is calculated as: Gas used by the transaction \* Gas price . While doing these interactions on the chain, it is crucial to ensure that we utilize the chain in an efficient and costeffective manner to reduce our operational costs.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Solution
+
+Utilize publicly available gas price data-feeds such as EthGasStation to get valuable insights on reducing the costs of running operations.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Ethereum Gas Price Tracker \n
+Inserting gas price data to databse from the ETH Gas Station every 3 seconds. \n
+Support 2 endpoint \n
 
-## Installation
+1. /gas \n
+
+- Returns the current gas prices at different tiers (fast, average, low) at the current block number \n
+- Valid Results \n
+  - In case of error : \n
+    {
+    error: 'true',
+    timestamp: <Date>,
+    statusCode: <StatusCode>,
+    statusMessage: <Message regarding statuscode>,
+    message: <Message regarding error>,
+    path: <request.url>
+    } \n
+  - In case of successful result \n
+    {
+    error : 'false',
+    message : {
+    fast : <fast>,
+    average : <average>,
+    low : <low>,
+    blockNum : <blockNum>
+    }
+    }
+
+2. /average&fromTime=<UNIXTIMESTAMP>&toTime=<UNIXTIMESTAMP>
+
+- Returns the average gas price between a specified time interval \n
+- Valid Results \n
+  - In case of error : \n
+    {
+    error: 'true',
+    timestamp: <Date>,
+    statusCode: <StatusCode>,
+    statusMessage: <Message regarding statuscode>,
+    message: <Message regarding error>,
+    path: <request.url>
+    } \n
+  - In case of successful result \n
+    {
+    error : 'false',
+    message : {
+    averageFast : <averageFast>,
+    average : <average>,
+    averageLow : <averageLow>,
+    fromTime : <UNIXTIMESTAMP>,
+    toTime : <UNIXTIMESTAMP>
+    }
+    }
+
+## ENV FILE
 
 ```bash
-$ npm install
+PORT = <YOUR_SERVER_PORT>
+MYSQL_HOST = db
+MYSQL_ROOT_PASSWORD = <YOUR_PASSWORD>
+MYSQL_PASSWORD = <YOUR_PASSWORD>
+MYSQL_USER = root
+MYSQL_DATABASE = ETHGasPrice
+MYSQL_PORT = 3306
+API_KEY = <YOUR_API_KEY>
+NODE_ENV = production
 ```
 
-## Running the app
+## START
+
+1. Setting up .env file \n
+2. Run docker compose \n
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ docker-compose up -d prod db
 ```
 
-## Test
+## START AS DEVELOPMENT MODE
+
+1. Setting up NODE_ENV to development on .env file\n
+2. Run docker compose \n
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ docker-compose up -d main db
 ```
 
-## Support
+## DATABASE
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+id        INT(11) PRIMAY_KEY AUTO_INCREMENT
+fast      DECIMAL(10,2)
+average   DECIMAL(10,2)
+low       DECIMAL(10,2)
+blockNum  INT(11)
+createAt  DATE
+```
 
-## Stay in touch
+## ETH GAS STATION
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Well documented, simple and easy to use.
 
-## License
+## Why Rest?
 
-Nest is [MIT licensed](LICENSE).
+Users do not send anything to server. They are just getting data about gas price. Thus, the connection between user and the server do not have to be stateful. \n As a result, Rest is more efficient than WebSocket.

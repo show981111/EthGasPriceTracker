@@ -27,7 +27,6 @@ export class GasService {
    * @returns Get current gas price by calling an API then returns it
    */
   async getCurrentGasPrice(): Promise<GasPriceSummary> {
-    //Promise<GasPrice>
     return this.callHttpToGetCurrentGasPrice();
   }
 

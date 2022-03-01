@@ -10,11 +10,11 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-      transform: true, // param 에 적은 타입으로 변환해줌.
+      transform: true,
     }),
   );
   app.use(helmet());
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

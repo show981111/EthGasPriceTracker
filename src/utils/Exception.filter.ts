@@ -45,12 +45,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
     this.logger.error(loggingMessage);
 
     response.status(status).json({
-      statusCode: status,
-      timestamp: new Date().toISOString(),
-      message: message,
-      detail: error,
-      path: request.url,
       error: 'true',
+      timestamp: new Date().toISOString(),
+      statusCode: status,
+      statusMessage: error,
+      message: message,
+      path: request.url,
     });
   }
 }

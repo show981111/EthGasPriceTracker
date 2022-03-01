@@ -3,5 +3,4 @@ export class GasPriceSummary {
   average: number;
   low: number;
   blockNum: number;
-  createdAt: Date;
 }
