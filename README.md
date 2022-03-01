@@ -8,15 +8,15 @@ Utilize publicly available gas price data-feeds such as EthGasStation to get val
 
 ## Description
 
-Ethereum Gas Price Tracker \n
-Inserting gas price data to databse from the ETH Gas Station every 3 seconds. \n
-Support 2 endpoint \n
+Ethereum Gas Price Tracker
+Inserting gas price data to databse from the ETH Gas Station every 3 seconds.
+Support 2 endpoint
 
-1. /gas \n
+1. /gas
 
-- Returns the current gas prices at different tiers (fast, average, low) at the current block number \n
-- Valid Results \n
-  - In case of error : \n
+- Returns the current gas prices at different tiers (fast, average, low) at the current block number
+- Valid Results
+  - In case of error :
     {
     error: 'true',
     timestamp: <Date>,
@@ -24,8 +24,8 @@ Support 2 endpoint \n
     statusMessage: <Message regarding statuscode>,
     message: <Message regarding error>,
     path: <request.url>
-    } \n
-  - In case of successful result \n
+    }
+  - In case of successful result
     {
     error : 'false',
     message : {
@@ -38,9 +38,9 @@ Support 2 endpoint \n
 
 2. /average&fromTime=<UNIXTIMESTAMP>&toTime=<UNIXTIMESTAMP>
 
-- Returns the average gas price between a specified time interval \n
-- Valid Results \n
-  - In case of error : \n
+- Returns the average gas price between a specified time interval
+- Valid Results
+  - In case of error :
     {
     error: 'true',
     timestamp: <Date>,
@@ -48,8 +48,8 @@ Support 2 endpoint \n
     statusMessage: <Message regarding statuscode>,
     message: <Message regarding error>,
     path: <request.url>
-    } \n
-  - In case of successful result \n
+    }
+  - In case of successful result
     {
     error : 'false',
     message : {
@@ -77,8 +77,8 @@ NODE_ENV = production
 
 ## START
 
-1. Setting up .env file \n
-2. Run docker compose \n
+1. Setting up .env file
+2. Run docker compose
 
 ```bash
 $ docker-compose up -d prod db
@@ -86,8 +86,8 @@ $ docker-compose up -d prod db
 
 ## START AS DEVELOPMENT MODE
 
-1. Setting up NODE_ENV to development on .env file\n
-2. Run docker compose \n
+1. Setting up NODE_ENV to development on .env file
+2. Run docker compose
 
 ```bash
 $ docker-compose up -d main db
@@ -110,4 +110,4 @@ Well documented, simple and easy to use.
 
 ## Why Rest?
 
-Users do not send anything to server. They are just getting data about gas price. Thus, the connection between user and the server do not have to be stateful. \n As a result, Rest is more efficient than WebSocket.
+Users do not send anything to server. They are just getting data about gas price. Thus, the connection between user and the server do not have to be stateful. As a result, Rest is more efficient than WebSocket.
