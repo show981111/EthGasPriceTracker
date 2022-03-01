@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 services:
   db:
     image: mysql:8.0.11
@@ -47,9 +47,10 @@ services:
     networks:
       - docker-service
     restart: 'unless-stopped'
+    volumes:
+      - ./logs:/usr/src/app/logs
     depends_on:
-      db:
-        condition: service_completed_successfully
+      - db
 networks:
   docker-service:
     driver: bridge
