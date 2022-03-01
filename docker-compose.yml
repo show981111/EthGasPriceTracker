@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   db:
     image: mysql:8.0.11
@@ -13,11 +13,11 @@ services:
       - docker-service
     volumes:
       - mysql-data:/data/db
+    cap_add:
+      - SYS_NICE
     command: --default-authentication-plugin=mysql_native_password
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$MYSQL_ROOT_PASSWORD' ]
   main:
     container_name: main
     build:
@@ -46,8 +46,10 @@ services:
       - .env
     networks:
       - docker-service
+    restart: 'unless-stopped'
     depends_on:
-      - db
+      db:
+        condition: service_completed_successfully
 networks:
   docker-service:
     driver: bridge

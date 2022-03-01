@@ -84,7 +84,7 @@ export class GasService {
    * Ingesting current gasprice every 3seconds to Database
    * @returns InsertResult
    */
-  //@Cron('*/3 * * * * *')
+  @Cron('*/3 * * * * *')
   async ingestingData(): Promise<InsertResult> {
     var currentPrice: GasPriceSummary =
       await this.callHttpToGetCurrentGasPrice();
