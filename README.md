@@ -111,3 +111,7 @@ Well documented, simple and easy to use.
 ## Why Rest?
 
 Users do not send anything to server. They are just getting data about gas price. Thus, the connection between user and the server do not have to be stateful. As a result, Rest is more efficient than WebSocket.
+
+## If I have more time
+
+I will set up the docker-compose file more properly. Currently, in my computer, if I run docker-compose, then healthCheck is not working properly. So, the Node server is running before the Mysql is fully setup. Thus, it crashed couple times until it successfully ran.
